@@ -114,6 +114,8 @@ Version 6.05 Notes. -- VE7VXO
   -- Serial routines for firmware update modified as per PE1HZG to mitigate HobbyPCB
      firmware upload tool connection issues on some windows PC's. 
   -- Eliminated relay chatter due to CW keying when amp is OFF.
+  -- Moved Max DC Power define statement (default 1000W) to HR500V1.h line 146.
+
     
 
 \*/
