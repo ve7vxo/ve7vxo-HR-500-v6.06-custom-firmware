@@ -1,4 +1,4 @@
-# HR-500-v6.06-custom-firmware
+# HR-500-v6.02-custom-firmware
 
 Control firmware for HR-500 RF amplifier
 
@@ -83,7 +83,7 @@ Version 6.04 Notes. -- VE7VXO
 
 -- New subroutine sets max DC power threshold registers in LTC2945 power monitor IC
 -- and enables max power fault bit in control reg.
--- Max DC power is defined on line 27 on HR\_500\_V6.04.ino file (default 1000 watts)
+-- Max DC power is defined on line 27 on HR\_500\_V6.04.ino file (default 900 watts)
 
 -- DC overpower fault will trip the amp and require drive power to be removed before
 -- the amp will reset.  The condition is indicated by red letters "OVER" displayed in
@@ -115,7 +115,8 @@ Version 6.05 Notes. -- VE7VXO
      firmware upload tool connection issues on some windows PC's. 
   -- Eliminated relay chatter due to CW keying when amp is OFF.
   -- Moved Max DC Power define statement (default 1000W) to HR500V1.h line 146.
-
+  -- Added #define TOPBAND in HR500V1.h to enable high power on 160m.  Only uncomment
+     this line if you have modified the RF pallet for 160m use!
     
 
 \*/

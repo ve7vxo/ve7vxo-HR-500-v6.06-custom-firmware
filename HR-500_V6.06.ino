@@ -130,7 +130,8 @@ int s_disp = 19;                              // SWR will be displayed on first 
 char Bias_buff[] = {"          "};
 int oBcurr = -1;
 byte FTband;
-bool VPTT = 0;                                // Virtual PTT flag (when amp is offline)                                      
+bool VPTT = 0;                                // Virtual PTT flag (when amp is offline)
+bool TB = 0;                                      
 
 uint16_t  BG_col;                             // Background colour
 uint16_t  FG_col;                             // Foreground colour
@@ -392,6 +393,10 @@ void setup()
  
 
   watchdog.enable(Watchdog::TIMEOUT_120MS);                         // Watchdog timeout 120 milliseconds
+
+  #ifdef TOPBAND
+    TB = true;
+  #endif
   
 }
 
@@ -534,6 +539,11 @@ void loop()
   if (++a_count == 2){
     unsigned int f_yel = 600, f_red = 660;
     a_count = 0;
+
+    if(BAND == 10 && !TB){
+      f_yel = 200;
+      f_red = 250;
+    }
     
     if (f_tot > f_yel && F_alert == 1) {F_alert = 2;}
     if (f_tot > f_red) {F_alert = 3; trip_set();}

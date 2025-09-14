@@ -129,7 +129,10 @@ Version 6.05 Notes. -- VE7VXO
 
   -- Serial routines for firmware update modified as per PE1HZG to mitigate HobbyPCB
      firmware upload tool connection issues on some windows PC's. 
-  -- Eliminated relay chatter due to CW keying when amp is OFF.      
+  -- Eliminated relay chatter due to CW keying when amp is OFF.
+  -- Moved Max DC Power define statement (default 1000W) to HR500V1.h line 146.
+  -- Added #define TOPBAND in HR500V1.h to enable high power on 160m.  Only uncomment
+     this line if you have modified the RF pallet for 160m use!
     
 
   
@@ -144,6 +147,8 @@ Version 6.05 Notes. -- VE7VXO
 #define Debounce 10                               // PTT contact debounce time (milliseconds).
 #define TR_dly 300                                // Transmit-Recieve delay time (milliseconds).
 #define MAX_PWR  1000                             // Value of max DC power for LTC2945 fault generation
+//#define TOPBAND                                   // Uncomment this line only if you have modified RF pallet for 160m
+
 
 //#define DEVELOPMENT                               // if defined then compile code blocks for development
 
