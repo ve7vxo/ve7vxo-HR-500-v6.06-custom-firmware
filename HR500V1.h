@@ -133,6 +133,8 @@ Version 6.05 Notes. -- VE7VXO
   -- Moved Max DC Power define statement (default 1000W) to HR500V1.h line 146.
   -- Added #define TOPBAND in HR500V1.h to enable high power on 160m.  Only uncomment
      this line if you have modified the RF pallet for 160m use!
+  -- VDD indicator changes to yellow if VDD < 55v and red if VDD < 50v
+  -- Amp trips if VDD > 62.5v
     
 
   
