@@ -592,14 +592,17 @@ void loop()
     }
 
     dc_vol = Read_Voltage();
-    if (dc_vol < 1800) V_alert = 2;
-    else if (dc_vol > 3000) V_alert = 2;
-    else V_alert = 1;
+    V_alert = 1;
+    if (dc_vol > 2500) {V_alert = 3; trip_set();}                             // Trip amp if VDD rises above 62v
+    if (dc_vol < 2200) V_alert = 2;                                           // Indicate low VDD yel = VDD < 55v
+    if (dc_vol < 2000) V_alert = 3;                                           // red = VDD < 50v
     
+     
     if (V_alert != OV_alert){
       OV_alert = V_alert;
       unsigned int r_col = GOOD_LED;
-      if (V_alert == 2) {r_col = WARN_LED;}
+      if (V_alert == 2) r_col = WARN_LED;
+      if (V_alert == 3) r_col = ALRM_LED;
       Tft.LCD_SEL = 0;
       Tft.lcd_fill_rect(212, 82, 25, 10, r_col);                              // Fill VDD status LED with alert status colour
     }
@@ -607,7 +610,7 @@ void loop()
     dc_cur = Read_Current();
     int MC1 = 180 * MAX_CUR;
     int MC2 = 200 * MAX_CUR;
-    if (dc_cur > MC1 && I_alert == 1) {I_alert = 2;;}
+    if (dc_cur > MC1 && I_alert == 1) I_alert = 2;
     if (dc_cur > MC2) {I_alert = 3; trip_set();}
       
     if (I_alert != OI_alert){
@@ -658,7 +661,7 @@ void loop()
     Tft.LCD_SEL = 0;
     F_bar = constrain(F_bar, 15, 296);                                        // Do not overrun bounds of bargraph display
 
-    if(MODE == 1 || (MODE == 0 && frq_chkd)){                                 // Limit false drive pwr peak during frq measurement
+    if(MODE == 1 || frq_chkd || MeterSel > 3){                                // Limit false drive pwr peak during frq measurement
       if (F_bar > OF_bar) {                                                   // When bar is increasing
         Tft.lcd_draw_v_line(OF_bar, 46, 22, MTR_BKG);
         Tft.lcd_draw_v_line(OF_bar+1, 46, 22, MTR_BKG);                       // Erase old bar
@@ -898,7 +901,7 @@ void loop()
         break;
         
       case 12:                                                                    // Menu selection without ATU
-        if (!ATU_P){
+        if (!ATU_P && !TX){
           Tft.LCD_SEL = 1;
           Tft.lcd_clear_screen(BG_col);
           DrawMenu();
@@ -907,7 +910,7 @@ void loop()
         break;
         
       case 7:                                                                     // Menu selection with ATU
-        if (ATU_P){
+        if (ATU_P && !TX){
           Tft.LCD_SEL = 1;
           Tft.lcd_clear_screen(BG_col);
           DrawMenu();
@@ -916,7 +919,7 @@ void loop()
         break;
         
       case 17:                                                                    // Automatch request 
-        if (ATU_P){
+        if (ATU_P && !TUNING){
           Tune_button();  
         }
       }
